@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Вступ до Черкаського політехнічного фахового коледжу — умови вступу, спеціальності, необхідні документи.">
+    <link rel="canonical" href="https://polytechnic.ck.ua/vstupnyku">
+    <title>Вступнику | Черкаський політехнічний фаховий коледж</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preload" as="image" href="images/DRON_PEOPLE.png">
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="icon-phone" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+    </symbol>
+</svg>
+<!-- ТОП-БАРА -->
+<div class="topbar">
+    <div class="container topbar__inner">
+        <span class="topbar__text">Черкаський політехнічний фаховий коледж</span>
+        <a href="tel:+380674441234" class="topbar__phone" aria-label="Телефон коледжу">
+            <svg width="14" height="14" aria-hidden="true" fill="currentColor">
+                <use href="#icon-phone"/>
+            </svg>
+            +38 (067) 444-12-34
+        </a>
+    </div>
+</div>
+
+<!-- ШАПКА -->
+<header class="header">
+    <div class="container header__inner">
+        <a href="index.html" class="header__logo" aria-label="На головну сторінку">
+            <div class="header__logo-img" aria-label="Герб коледжу">
+                <!--<span class="logo-placeholder">ГЕРБ</span>-->
+                <img src="images/gerb.jpg" alt="Герб Черкаського політехнічного фахового коледжу" width="48" height="48">
+            </div>
+            <div class="header__logo-text">
+                <span class="header__logo-title">ЧПФК</span>
+                <span class="header__logo-subtitle">Черкаський політехнічний фаховий коледж</span>
+            </div>
+        </a>
+
+        <nav class="nav" aria-label="Головна навігація">
+            <ul class="nav__list">
+                <li class="nav__item"><a href="index.html" class="nav__link">Головна</a></li>
+                <li class="nav__item"><a href="vstupnyku.html" class="nav__link nav__link--active">Вступнику</a></li>
+                <li class="nav__item nav__item--dropdown">
+                    <button class="nav__link nav__dropdown-btn" aria-expanded="false" aria-haspopup="true">
+                        Студенту <span class="nav__arrow" aria-hidden="true">▾</span>
+                    </button>
+                    <ul class="nav__dropdown" role="menu">
+                        <li role="menuitem"><a href="#" class="nav__dropdown-link">Розклад занять</a></li>
+                        <li role="menuitem"><a href="#" class="nav__dropdown-link">Стипендії</a></li>
+                        <li role="menuitem"><a href="#" class="nav__dropdown-link">Корисна інформація</a></li>
+                    </ul>
+                </li>
+                <li class="nav__item nav__item--tablet-hidden">
+                    <a href="#" class="nav__link">Викладачу</a></li>
+                <li class="nav__item nav__item--tablet-hidden">
+                    <a href="#" class="nav__link">Новини</a></li>
+                <li class="nav__item"><a href="index.html#contacts" class="nav__link">Контакти</a></li>
+            </ul>
+        </nav>
+
+        <a href="#application" class="btn btn--primary header__cta">Подати заявку</a>
+
+        <button class="hamburger" id="hamburger" aria-label="Відкрити меню" aria-expanded="false" aria-controls="mobile-menu">
+            <span class="hamburger__line"></span>
+            <span class="hamburger__line"></span>
+            <span class="hamburger__line"></span>
+        </button>
+    </div>
+</header>
+
+<!-- МОБІЛЬНЕ МЕНЮ -->
+<nav class="mobile-menu" id="mobile-menu" aria-label="Мобільна навігація" aria-hidden="true">
+    <ul class="mobile-menu__list">
+        <li><a href="index.html" class="mobile-menu__link">Головна</a></li>
+        <li><a href="vstupnyku.html" class="mobile-menu__link mobile-menu__link--active">Вступнику</a></li>
+        <li>
+            <button class="mobile-menu__link mobile-menu__dropdown-btn" aria-expanded="false">
+                Студенту <span aria-hidden="true">▾</span>
+            </button>
+            <ul class="mobile-menu__submenu" hidden>
+                <li><a href="#" class="mobile-menu__sublink">Розклад занять</a></li>
+                <li><a href="#" class="mobile-menu__sublink">Стипендії</a></li>
+                <li><a href="#" class="mobile-menu__sublink">Корисна інформація</a></li>
+            </ul>
+        </li>
+        <li><a href="#" class="mobile-menu__link">Викладачу</a></li>
+        <li><a href="#" class="mobile-menu__link">Новини</a></li>
+        <li><a href="index.html#contacts" class="mobile-menu__link">Контакти</a></li>
+        <li><a href="#application" class="btn btn--primary mobile-menu__cta">Подати заявку</a></li>
+    </ul>
+</nav>
+
+<main id="main-content">
+
+    <!-- PAGE HERO -->
+    <section class="page-hero" aria-label="Заголовок сторінки">
+        <div class="container page-hero__inner">
+            <div class="page-hero__content">
+                <h1 class="page-hero__title">Вступнику</h1>
+                <p class="page-hero__subtitle">Все що потрібно знати для вступу до ЧПФК</p>
+                <nav class="breadcrumb" aria-label="Навігаційні хлібні крихти">
+                    <ol class="breadcrumb__list">
+                        <li class="breadcrumb__item"><a href="index.html" class="breadcrumb__link">Головна</a></li>
+                        <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">Вступнику</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="hero__image">
+                <img src="images/DRON_PEOPLE.png"
+                     alt="Абітурієнти Черкаського політехнічного фахового коледжу"
+                     width="560" height="373"
+                     loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- КРОКИ ВСТУПУ -->
+    <section class="steps" aria-labelledby="steps-title">
+        <div class="container">
+            <h2 class="section-title section-title--center" id="steps-title">Як вступити до коледжу</h2>
+            <ol class="steps__list">
+                <li class="steps__item">
+                    <div class="steps__num" aria-hidden="true">1</div>
+                    <div class="steps__content">
+                        <h3 class="steps__name">Обрати спеціальність</h3>
+                        <p class="steps__desc">Ознайомтесь зі списком спеціальностей та оберіть ту, яка відповідає вашим інтересам</p>
+                    </div>
+                </li>
+                <li class="steps__item">
+                    <div class="steps__num" aria-hidden="true">2</div>
+                    <div class="steps__content">
+                        <h3 class="steps__name">Підготувати документи</h3>
+                        <p class="steps__desc">Зберіть необхідний пакет документів згідно з переліком</p>
+                    </div>
+                </li>
+                <li class="steps__item">
+                    <div class="steps__num" aria-hidden="true">3</div>
+                    <div class="steps__content">
+                        <h3 class="steps__name">Подати заявку</h3>
+                        <p class="steps__desc">Подайте документи особисто або заповніть онлайн-форму на цій сторінці</p>
+                    </div>
+                </li>
+                <li class="steps__item">
+                    <div class="steps__num" aria-hidden="true">4</div>
+                    <div class="steps__content">
+                        <h3 class="steps__name">Отримати результат</h3>
+                        <p class="steps__desc">Дочекайтесь рішення приймальної комісії та підпишіть договір</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- СПЕЦІАЛЬНОСТІ ВСТУПНИКА -->
+    <section class="vstup-specialties" id="vstup-specialties" aria-labelledby="vstup-spec-title">
+        <div class="container">
+            <h2 class="section-title section-title--center" id="vstup-spec-title">Спеціальності та умови вступу</h2>
+            <div class="vstup-table-wrapper" role="region" aria-label="Таблиця спеціальностей" tabindex="0">
+                <table class="vstup-table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Спеціальність</th>
+                        <th scope="col">Термін навчання</th>
+                        <th scope="col">База вступу</th>
+                        <th scope="col">Форма навчання</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Інформаційні системи та технології</td>
+                        <td>3 роки 10 міс.</td>
+                        <td>9 класів</td>
+                        <td>Денна</td>
+                    </tr>
+                    <tr>
+                        <td>Механотроніка та робототехніка</td>
+                        <td>3 роки 10 міс.</td>
+                        <td>9 класів</td>
+                        <td>Денна</td>
+                    </tr>
+                    <tr>
+                        <td>Електроенергетика, електротехніка та електромеханіка</td>
+                        <td>3 роки 10 міс.</td>
+                        <td>9 класів</td>
+                        <td>Денна</td>
+                    </tr>
+                    <tr>
+                        <td>Будівництво та цивільна інженерія</td>
+                        <td>3 роки 10 міс.</td>
+                        <td>9 класів</td>
+                        <td>Денна</td>
+                    </tr>
+                    <tr>
+                        <td>Комп'ютерна інженерія</td>
+                        <td>2 роки 10 міс.</td>
+                        <td>11 класів</td>
+                        <td>Денна</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ДОКУМЕНТИ -->
+    <section class="docs" aria-labelledby="docs-title">
+        <div class="container docs__inner">
+            <div class="docs__text">
+                <h2 class="section-title" id="docs-title">Необхідні документи</h2>
+                <ul class="docs__list">
+                    <li class="docs__item">Заява на ім'я директора коледжу</li>
+                    <li class="docs__item">Документ про освіту (оригінал або копія)</li>
+                    <li class="docs__item">Свідоцтво про народження (копія)</li>
+                    <li class="docs__item">Паспорт або ID-картка (копія)</li>
+                    <li class="docs__item">Медична довідка за формою 086-о</li>
+                    <li class="docs__item">6 фотографій 3×4 см</li>
+                    <li class="docs__item">Ідентифікаційний код (копія)</li>
+                </ul>
+            </div>
+            <div class="docs__dates">
+                <h2 class="section-title">Важливі дати</h2>
+                <ul class="dates__list">
+                    <li class="dates__item">
+                        <time class="dates__date" datetime="2026-07-01">1 липня 2026</time>
+                        <span class="dates__label">Початок прийому документів</span>
+                    </li>
+                    <li class="dates__item">
+                        <time class="dates__date" datetime="2026-08-01">1 серпня 2026</time>
+                        <span class="dates__label">Закінчення прийому документів</span>
+                    </li>
+                    <li class="dates__item">
+                        <time class="dates__date" datetime="2026-08-20">20 серпня 2026</time>
+                        <span class="dates__label">Оголошення результатів</span>
+                    </li>
+                    <li class="dates__item">
+                        <time class="dates__date" datetime="2026-09-01">1 вересня 2026</time>
+                        <span class="dates__label">Початок навчання</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ФОРМА ЗАЯВКИ -->
+    <section class="application" id="application" aria-labelledby="application-title">
+        <div class="container application__inner">
+            <h2 class="section-title section-title--center" id="application-title">Подати заявку онлайн</h2>
+            <p class="application__desc">Заповніть форму і ми зв'яжемося з вами протягом одного робочого дня</p>
+            <div class="application__form-wrapper">
+                <div class="application__field">
+                    <label for="name" class="application__label">Ваше ім'я *</label>
+                    <input type="text" id="name" name="name" class="application__input" placeholder="Іванenko Іван Іванович" required aria-required="true">
+                </div>
+                <div class="application__field">
+                    <label for="phone" class="application__label">Номер телефону *</label>
+                    <input type="tel" id="phone" name="phone" class="application__input" placeholder="+38 (0__) ___-__-__" required aria-required="true">
+                </div>
+                <div class="application__field">
+                    <label for="email" class="application__label">Email</label>
+                    <input type="email" id="email" name="email" class="application__input" placeholder="your@email.com">
+                </div>
+                <div class="application__field">
+                    <label for="specialty" class="application__label">Бажана спеціальність *</label>
+                    <select id="specialty" name="specialty" class="application__input application__select" required aria-required="true">
+                        <option value="" disabled selected>Оберіть спеціальність</option>
+                        <option value="ist">Інформаційні системи та технології</option>
+                        <option value="mechatronics">Механотроніка та робототехніка</option>
+                        <option value="electro">Електроенергетика</option>
+                        <option value="construction">Будівництво та цивільна інженерія</option>
+                        <option value="computer">Комп'ютерна інженерія</option>
+                    </select>
+                </div>
+                <div class="application__field application__field--full">
+                    <label for="message" class="application__label">Додаткові запитання</label>
+                    <textarea id="message" name="message" class="application__input application__textarea" placeholder="Ваше запитання або коментар" rows="4"></textarea>
+                </div>
+                <div class="application__submit">
+                    <button type="button" class="btn btn--primary btn--large" onclick="handleSubmit()">Надіслати заявку</button>
+                </div>
+            </div>
+            <div class="application__success" id="application-success" hidden aria-live="polite">
+                <p>Дякуємо! Ваша заявка прийнята. Ми зв'яжемося з вами найближчим часом.</p>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ФУТЕР -->
+<footer class="footer" role="contentinfo">
+    <div class="container footer__inner">
+        <div class="footer__col">
+            <p class="footer__name">Черкаський політехнічний фаховий коледж</p>
+            <p class="footer__copy">© 2026 ЧПФК. Усі права захищені.</p>
+        </div>
+        <nav class="footer__nav" aria-label="Навігація в футері">
+            <ul class="footer__list">
+                <li><a href="index.html" class="footer__link">Головна</a></li>
+                <li><a href="vstupnyku.html" class="footer__link">Вступнику</a></li>
+                <li><a href="index.html#specialties" class="footer__link">Спеціальності</a></li>
+                <li><a href="index.html#contacts" class="footer__link">Контакти</a></li>
+            </ul>
+        </nav>
+        <div class="footer__contact">
+            <p><a href="tel:+380472441234" class="footer__link">+38 (0472) 44-12-34</a></p>
+            <p><a href="mailto:info@polytechnic.ck.ua" class="footer__link">info@polytechnic.ck.ua</a></p>
+        </div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
