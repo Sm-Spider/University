@@ -97,6 +97,15 @@
         <option value="native">рідний</option>
       </select>
     </label>
+    <label>Копій
+      <select id="copies">
+        <option value="1" selected>1</option>
+        <option value="2">2</option>
+        <option value="4">4</option>
+        <option value="8">8</option>
+        <option value="16">16</option>
+      </select>
+    </label>
     <label><input id="flat" type="checkbox" checked> Однаковий матеріал</label>
     <label><input id="comma" type="checkbox" checked> Десяткова кома</label>
   </div>
@@ -128,7 +137,7 @@
   <div class="scroll">
     <table>
       <thead>
-        <tr><th>Пристрій</th><th>Модель</th><th>Трикутників</th><th>МБ</th><th>Завант., мс</th>
+        <tr><th>Пристрій</th><th>Модель</th><th>Копій</th><th>Трикутників</th><th>МБ</th><th>Завант., мс</th>
             <th>FPS</th><th>мс/кадр</th><th>1% low FPS</th></tr>
       </thead>
       <tbody id="rows"></tbody>
@@ -144,9 +153,9 @@ const MODELS = [
   { label: 'V1 · ~10 тис.',  file: 'models/v1.glb' },
   { label: 'V2 · ~50 тис.',  file: 'models/v2.glb' },
   { label: 'V3 · ~100 тис.', file: 'models/v3.glb' },
-  { label: 'V4 · ~200 тис.', file: 'models/v4.glb' },
-  { label: 'V5 · ~400 тис.', file: 'models/v5.glb' },
-  { label: 'V6 · ~800 тис',    file: 'models/v6.glb' },
+  { label: 'V4 · ~300 тис.', file: 'models/v4.glb' },
+  { label: 'V5 · ~600 тис.', file: 'models/v5.glb' },
+  { label: 'V6 · ~1,2 млн',  file: 'models/v6.glb' },
 ];
 const WARMUP_S = 3;            // прогрів перед записом, с
 const ROTATION_SPEED = 0.0005; // рад/мс (0.5 рад/с): модель обертається однаково на всіх пристроях
@@ -214,7 +223,10 @@ window.addEventListener('resize', applySize);
 $('pr').addEventListener('change', applySize);
 
 /* ---------- стан ---------- */
-let pivot = null;                // група з поточною моделлю
+let pivot = null;                // група з усіма копіями моделі
+let baseRoot = null;             // завантажена модель (нормалізована)
+let cells = [];                  // групи-копії, кожна обертається на місці
+let baseTris = 0;                // трикутників в одній моделі
 let current = null;              // метадані завантаженої моделі
 let refreshHz = 0;
 let busy = false;
@@ -239,16 +251,44 @@ function disposeMaterial(m) {
 }
 
 function clearModel() {
-  if (!pivot) return;
-  scene.remove(pivot);
-  pivot.traverse((o) => {
-    if (o.isMesh) {
-      if (o.geometry && o.geometry.dispose) o.geometry.dispose();
-      disposeMaterial(o.material);
-    }
-  });
+  if (pivot) scene.remove(pivot);
+  if (baseRoot) {
+    baseRoot.traverse((o) => {
+      if (o.isMesh) {
+        if (o.geometry && o.geometry.dispose) o.geometry.dispose();
+        disposeMaterial(o.material);
+      }
+    });
+  }
   pivot = null;
+  baseRoot = null;
+  cells = [];
+  baseTris = 0;
   current = null;
+}
+
+// Розкладає N копій моделі сіткою; копії діляться однією геометрією.
+function buildScene() {
+  if (!baseRoot) return;
+  if (pivot) scene.remove(pivot);
+  const n = Number($('copies').value) || 1;
+  const cols = Math.ceil(Math.sqrt(n));
+  const rows = Math.ceil(n / cols);
+  const spacing = 2.4;
+  pivot = new THREE.Group();
+  cells = [];
+  for (let i = 0; i < n; i++) {
+    const cell = new THREE.Group();
+    cell.add(i === 0 ? baseRoot : baseRoot.clone(true));
+    cell.position.set(((i % cols) - (cols - 1) / 2) * spacing, 0, (Math.floor(i / cols) - (rows - 1) / 2) * spacing);
+    pivot.add(cell);
+    cells.push(cell);
+  }
+  scene.add(pivot);
+  const k = Math.max(1, Math.max(cols, rows) * 1.15);
+  camera.position.set(0, 0.6 * k, 4.2 * k);
+  camera.lookAt(0, 0, 0);
+  $('vTris').textContent = (baseTris * n).toLocaleString('uk-UA');
 }
 
 function countTriangles(root) {
@@ -296,11 +336,12 @@ async function loadModel(item) {
   box.getSize(size);
   box.getCenter(center);
   root.position.sub(center);
-  const group = new THREE.Group();
-  group.add(root);
-  group.scale.setScalar(2 / (Math.max(size.x, size.y, size.z) || 1));
-  scene.add(group);
-  pivot = group;
+  const wrap = new THREE.Group();
+  wrap.add(root);
+  wrap.scale.setScalar(2 / (Math.max(size.x, size.y, size.z) || 1));
+  baseRoot = wrap;
+  baseTris = countTriangles(wrap);
+  buildScene();
 
   renderer.render(scene, camera);
   await nextFrame();
@@ -308,7 +349,8 @@ async function loadModel(item) {
 
   current = {
     label: item.label,
-    tris: countTriangles(root),
+    trisModel: baseTris,
+    tris: baseTris * (Number($('copies').value) || 1),
     sizeMb: buf.byteLength / (1024 * 1024),
     downloadMs: t1 - t0,
     parseMs: t2 - t1,
@@ -342,7 +384,10 @@ function frame(now) {
   last = now;
   if (dt <= 0) return;
 
-  if (pivot) pivot.rotation.y += dt * ROTATION_SPEED;
+  if (cells.length) {
+    const step = dt * ROTATION_SPEED;
+    for (const c of cells) c.rotation.y += step;
+  }
   renderer.render(scene, camera);
 
   hudFrames++;
@@ -420,13 +465,16 @@ function finishTest() {
   const p99 = sorted[Math.max(0, Math.ceil(n * 0.01) - 1)];
   const device = $('device').value.trim() || 'Пристрій';
 
+  const copies = Number($('copies').value) || 1;
   const rows = lsGet(STORAGE_ROWS, []);
-  const run = rows.filter((r) => r.device === device && r.model === current.label).length + 1;
+  const run = rows.filter((r) => r.device === device && r.model === current.label && (r.copies || 1) === copies).length + 1;
   rows.push({
     device,
     model: current.label,
     run,
-    tris: current.tris,
+    copies,
+    trisModel: current.trisModel,
+    tris: current.trisModel * copies,
     sizeMb: current.sizeMb,
     loadMs: current.loadMs,
     downloadMs: current.downloadMs,
@@ -459,7 +507,7 @@ function renderRows() {
   body.textContent = '';
   rows.forEach((r) => {
     const tr = document.createElement('tr');
-    [r.device, `${r.model} (#${r.run})`, r.tris, fmt(r.sizeMb, 1), Math.round(r.loadMs),
+    [r.device, `${r.model} (#${r.run})`, r.copies || 1, r.tris, fmt(r.sizeMb, 1), Math.round(r.loadMs),
       fmt(r.fps, 1), fmt(r.ms, 2), fmt(r.low1, 1)].forEach((v) => {
       const td = document.createElement('td');
       td.textContent = String(v);
@@ -471,11 +519,11 @@ function renderRows() {
 
 function toTSV() {
   const rows = lsGet(STORAGE_ROWS, []);
-  const head = ['device', 'model', 'run', 'triangles', 'file_mb', 'load_total_ms', 'download_ms', 'parse_ms',
+  const head = ['device', 'model', 'run', 'copies', 'triangles_per_model', 'triangles', 'file_mb', 'load_total_ms', 'download_ms', 'parse_ms',
     'fps_avg', 'frame_ms_avg', 'fps_1pct_low', 'refresh_hz', 'pixel_ratio', 'canvas', 'gpu', 'duration_s', 'frames'];
   const lines = [head.join('\t')];
   rows.forEach((r) => {
-    lines.push([r.device, r.model, r.run, r.tris, fmt(r.sizeMb, 2), Math.round(r.loadMs), Math.round(r.downloadMs),
+    lines.push([r.device, r.model, r.run, r.copies || 1, r.trisModel || r.tris, r.tris, fmt(r.sizeMb, 2), Math.round(r.loadMs), Math.round(r.downloadMs),
       Math.round(r.parseMs), fmt(r.fps, 2), fmt(r.ms, 3), fmt(r.low1, 2), r.hz, r.pr, r.canvas, r.gpu, r.dur, r.frames]
       .join('\t'));
   });
@@ -528,6 +576,12 @@ $('btnLoad').addEventListener('click', async () => {
 });
 
 $('btnTest').addEventListener('click', startTest);
+$('copies').addEventListener('change', () => {
+  if (!baseRoot || busy || test) return;
+  buildScene();
+  const n = Number($('copies').value) || 1;
+  setStatus(`Копій: ${n}. Трикутників у сцені: ${(baseTris * n).toLocaleString('uk-UA')}.`, 'ok');
+});
 $('btnResults').addEventListener('click', () => { renderRows(); document.body.classList.add('show-results'); });
 $('btnBack').addEventListener('click', () => document.body.classList.remove('show-results'));
 $('btnCopy').addEventListener('click', copyTable);
